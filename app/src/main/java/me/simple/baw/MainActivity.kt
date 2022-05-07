@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 
 class MainActivity : AppCompatActivity() {
 
@@ -14,6 +15,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         installedReceiver.register(this)
+
+        findViewById<View>(R.id.button).setOnClickListener {
+            Helper.vibrator()
+        }
     }
 
     override fun onDestroy() {

@@ -9,8 +9,7 @@ class App : Application() {
 
     companion object {
 
-        @Volatile
-        var appCtx: Context? = null
+        lateinit var appCtx: Context
 
     }
 
