@@ -17,7 +17,8 @@ class MainActivity : AppCompatActivity() {
         installedReceiver.register(this)
 
         findViewById<View>(R.id.button).setOnClickListener {
-            Helper.vibrator()
+//            Helper.vibrator()
+            Helper.playRing()
         }
     }
 

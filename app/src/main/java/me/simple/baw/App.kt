@@ -9,12 +9,12 @@ class App : Application() {
 
     companion object {
 
-        lateinit var appCtx: Context
+        lateinit var ctx: Context
 
     }
 
     override fun onCreate() {
         super.onCreate()
-        appCtx = this
+        ctx = this
     }
 }
