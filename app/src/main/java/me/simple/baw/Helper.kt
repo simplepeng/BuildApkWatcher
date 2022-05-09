@@ -29,8 +29,15 @@ object Helper {
     }
 
     fun vibrate() {
+        if (!Config.vibrate) return
         try {
-            vibrator.vibrate(longArrayOf(100, 700, 1300, 2000), -1)
+            val pattern = LongArray(Config.vibrateCount * 2)
+            val start = 100
+            val duration = Config.vibrateDuration
+            pattern.forEachIndexed { index, _ ->
+                pattern[index] = index * duration + start
+            }
+            vibrator.vibrate(pattern, -1)
         } catch (e: Throwable) {
             e.printStackTrace()
             showToast("震动失败")
@@ -38,6 +45,7 @@ object Helper {
     }
 
     fun playRing() {
+        if (!Config.ring) return
         try {
             val ringUrl = RingtoneManager.getActualDefaultRingtoneUri(
                 App.ctx,
@@ -53,6 +61,7 @@ object Helper {
 
     @SuppressLint("InvalidWakeLockTag")
     fun lightScreen() {
+        if (!Config.lightScreen) return
         try {
             val wakeLock = powerManager.newWakeLock(
                 PowerManager.SCREEN_BRIGHT_WAKE_LOCK
@@ -68,8 +77,8 @@ object Helper {
 
     fun notifyApkInstalled() {
         showToast("安装完成")
-        lightScreen()
         playRing()
         vibrate()
+        lightScreen()
     }
 }

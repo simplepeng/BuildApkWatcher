@@ -58,6 +58,7 @@ class KeepAliveService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        Helper.showToast("启动服务成功")
         return super.onStartCommand(intent, flags, startId)
     }
 }
