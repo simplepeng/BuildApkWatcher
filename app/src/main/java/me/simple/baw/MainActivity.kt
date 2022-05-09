@@ -1,12 +1,12 @@
 package me.simple.baw
 
-import android.content.Intent
-import android.content.IntentFilter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 
 class MainActivity : AppCompatActivity() {
+
+    private val btnStart: View by lazy { findViewById(R.id.btnStart) }
 
     private val installedReceiver by lazy { InstalledReceiver() }
 
@@ -14,11 +14,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        installedReceiver.register(this)
-
-        findViewById<View>(R.id.button).setOnClickListener {
-//            Helper.vibrator()
-//            Helper.playRing()
+        btnStart.setOnClickListener {
+            KeepAliveService.start(this)
+            installedReceiver.register(this)
         }
     }
 
