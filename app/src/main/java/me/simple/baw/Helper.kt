@@ -1,7 +1,9 @@
 package me.simple.baw
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.media.RingtoneManager
+import android.os.PowerManager
 import android.os.Vibrator
 import android.util.Log
 import android.widget.Toast
@@ -14,6 +16,10 @@ object Helper {
         App.ctx.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
     }
 
+    private val powerManager by lazy {
+        App.ctx.getSystemService(Context.POWER_SERVICE) as PowerManager
+    }
+
     fun showToast(text: String?) {
         Toast.makeText(App.ctx, text.orEmpty(), Toast.LENGTH_SHORT).show()
     }
@@ -22,8 +28,12 @@ object Helper {
         Log.d(TAG, text.orEmpty())
     }
 
-    fun vibrator() {
-        vibrator.vibrate(longArrayOf(100, 700, 1300, 2000), -1)
+    fun vibrate() {
+        try {
+            vibrator.vibrate(longArrayOf(100, 700, 1300, 2000), -1)
+        } catch (e: Throwable) {
+            showToast("震动失败")
+        }
     }
 
     fun playRing() {
@@ -39,8 +49,21 @@ object Helper {
         }
     }
 
+    @SuppressLint("InvalidWakeLockTag")
+    fun lightScreen() {
+
+        val wakeLock = powerManager.newWakeLock(
+            PowerManager.SCREEN_BRIGHT_WAKE_LOCK
+                    or PowerManager.ACQUIRE_CAUSES_WAKEUP,
+            "ff"
+        )
+        wakeLock.acquire(2000)
+    }
+
     fun notifyApkInstalled() {
         showToast("安装完成")
-        vibrator()
+        lightScreen()
+        vibrate()
+//        playRing()
     }
 }
