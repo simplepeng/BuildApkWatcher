@@ -4,10 +4,14 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import java.util.concurrent.atomic.AtomicBoolean
 
 class InstalledReceiver : BroadcastReceiver() {
+
+    private val mHandler = Handler(Looper.getMainLooper())
 
     fun register(context: Context) {
         val intentFilter = IntentFilter().apply {
@@ -35,7 +39,12 @@ class InstalledReceiver : BroadcastReceiver() {
         if (action == Intent.ACTION_PACKAGE_RESTARTED && !isNotified.get()) {
             isNotified.set(true)
             Helper.notifyApkInstalled()
-            isNotified.set(false)
+            mHandler.postDelayed(run,5000)
         }
     }
+
+    private val run = Runnable {
+        isNotified.set(false)
+    }
+
 }
